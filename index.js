@@ -1,37 +1,81 @@
-let words = ['developer', 'designer']
+let words = ['developer', 'UI designer']
+let root = document.querySelector('#demo span')
+let index = 0
 let text = ''
-let textElem = document.querySelector('#demo span')
-let current = 0
 let isDeleting = false
+let wait 
 
-function typeWriter(){
-let fullTxt = words[current]
+function typeWriter() {
+  let curText = words[index];
+  root.innerText = text;
+  wait = false
+  if (isDeleting) {
+    text = curText.slice(0, text.length - 1);
+  root.innerText = text;
+   
+  } else {
+    text = curText.slice(0, text.length + 1);
+    root.innerText = text;
 
-if(isDeleting){
-  text = fullTxt.slice(0,  text.length - 1)
-}else{
-  text = fullTxt.slice(0, text.length + 1)
+  }
+
+  if (!isDeleting && text === curText) {
+   wait = true
+    isDeleting = true;
+  
+  }
+  if (isDeleting && text === "") {
+    index++;
+    isDeleting = false;
+    if (index === words.length) {
+      
+      index = 0;
+    }
+  }
+
+  let delay = wait ? 1000 : isDeleting ? 100 : 300
+  setTimeout(typeWriter, delay);
 }
-let newText = `<span class='text' >a ${text}</span>`
-textElem.innerHTML = newText
+typeWriter();
 
-// check if one word is complete
-if(!isDeleting && text === fullTxt){
- isDeleting = true
-}else if( isDeleting && text === ''){
-isDeleting = false
+// another way
+// let words = ["developer", "UI designer"];
+// let root = document.querySelector("#demo span");
+// let i = 0;
+// let j = 0;
+// let text = [];
+// let isDeleting = false;
+// let wait
 
-current++
-if(current === words.length){
+// function loop() {
+//     wait = false
+//     root.innerText = text.join("");
 
-    current = 0
-}
-}
-// setTimeout(typeWriter, 500)
-}
-
-// insert txt into element
-
-typeWriter()
-
-
+//         if (!isDeleting && j <= words[i].length ) {
+//             text.push(words[i][j]);
+//             j++;
+//   root.innerText = text.join("");
+       
+//           }
+//           if (isDeleting && j <= words[i].length) {
+//             text.pop(words[i][j]);
+//             j--;
+//   root.innerText = text.join("");
+       
+//           }
+//           if ( j === words[i].length ) {
+//       wait = true
+//             isDeleting = true;
+           
+//           }
+//           if ( j === 0) {
+//             isDeleting = false
+//             i++;
+//             if (i === words.length) {
+//               i = 0;
+//             }
+//           }
+//           let delay = wait ? 1000 : isDeleting ? 100 :300
+//   setTimeout(loop, delay);
+// }
+// loop()
